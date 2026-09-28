@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Smart Resume AI — AI-inspired resume analysis, builder, career insights and job search dashboard.">
+  <title>Smart Resume AI</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script type="module">import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs"; window.pdfjsLib = pdfjsLib;</script>
+  <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="toast-root" class="toast-root"></div>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark"><i data-lucide="scan-text"></i></div>
+        <div>
+          <strong>Smart Resume <span>AI</span></strong>
+          <small>Career Intelligence</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-view="home"><i data-lucide="layout-dashboard"></i><span>Home</span></button>
+        <button class="nav-item" data-view="analyzer"><i data-lucide="file-search-2"></i><span>Resume Analyzer</span></button>
+        <button class="nav-item" data-view="builder"><i data-lucide="file-pen-line"></i><span>Resume Builder</span></button>
+        <button class="nav-item" data-view="dashboard"><i data-lucide="bar-chart-3"></i><span>Dashboard</span></button>
+        <button class="nav-item" data-view="jobs"><i data-lucide="briefcase-business"></i><span>Job Search</span></button>
+        <button class="nav-item" data-view="feedback"><i data-lucide="message-square-heart"></i><span>Feedback</span></button>
+        <button class="nav-item" data-view="about"><i data-lucide="circle-help"></i><span>About</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="admin-entry" id="adminOpenBtn"><i data-lucide="shield-check"></i><span>Admin Panel</span></button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <span class="theme-icon"><i data-lucide="sun"></i></span>
+          <span id="themeText">Light mode</span>
+          <span class="toggle-switch"><span></span></span>
+        </button>
+        <div class="sidebar-foot">v2.0 • Front-end Edition</div>
+      </div>
+    </aside>
+
+    <div class="mobile-topbar">
+      <button class="icon-btn" id="mobileMenu"><i data-lucide="menu"></i></button>
+      <div class="mobile-brand">Smart Resume <span>AI</span></div>
+      <button class="icon-btn" id="mobileTheme"><i data-lucide="sun-moon"></i></button>
+    </div>
+
+    <main class="main-content">
+      <div class="topbar">
+        <div>
+          <div class="breadcrumb"><span>Workspace</span><i data-lucide="chevron-right"></i><strong id="pageLabel">Home</strong></div>
+        </div>
+        <div class="top-actions">
+          <div class="status-pill"><span class="status-dot"></span> System ready</div>
+          <button class="icon-btn" id="topTheme"><i data-lucide="sun-moon"></i></button>
+        </div>
+      </div>
+
+      <section id="view-home" class="view active-view"></section>
+      <section id="view-analyzer" class="view"></section>
+      <section id="view-builder" class="view"></section>
+      <section id="view-dashboard" class="view"></section>
+      <section id="view-jobs" class="view"></section>
+      <section id="view-feedback" class="view"></section>
+      <section id="view-about" class="view"></section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="adminModal">
+    <div class="modal admin-modal">
+      <button class="modal-close" data-close-modal="adminModal"><i data-lucide="x"></i></button>
+      <div id="adminLoginView">
+        <div class="modal-icon"><i data-lucide="shield-check"></i></div>
+        <span class="eyebrow">Restricted access</span>
+        <h2>Admin Login</h2>
+        <p class="muted">Sign in to manage feedback, analyses and local application data.</p>
+        <form id="adminLoginForm" class="stack-form">
+          <label>Admin ID<input id="adminId" autocomplete="username" placeholder="Enter admin ID" required></label>
+          <label>Password<input id="adminPassword" type="password" autocomplete="current-password" placeholder="Enter password" required></label>
+          <button class="btn primary full" type="submit"><i data-lucide="log-in"></i> Sign in</button>
+          <div class="login-hint"><i data-lucide="info"></i> Demo credentials: <b>admin</b> / <b>admin</b></div>
+        </form>
+      </div>
+
+      <div id="adminPanelView" class="hidden">
+        <div class="admin-head">
+          <div>
+            <span class="eyebrow">Control center</span>
+            <h2>Admin Panel</h2>
+          </div>
+          <button class="btn ghost" id="adminLogout"><i data-lucide="log-out"></i> Logout</button>
+        </div>
+        <div class="admin-stats" id="adminStats"></div>
+        <div class="admin-tabs">
+          <button class="mini-tab active" data-admin-tab="overview">Overview</button>
+          <button class="mini-tab" data-admin-tab="feedback">Feedback</button>
+          <button class="mini-tab" data-admin-tab="analyses">Analyses</button>
+          <button class="mini-tab" data-admin-tab="settings">Settings</button>
+        </div>
+        <div id="adminTabContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
